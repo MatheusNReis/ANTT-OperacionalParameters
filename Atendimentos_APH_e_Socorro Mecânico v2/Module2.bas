@@ -10,7 +10,7 @@ Sub AtendimentoMetodo1()
 
 'Version: 2.0
 
-'Created by Matheus Nunes Reis on 25/10/2024
+'Created by Matheus Nunes Reis on 25/09/2024
 'Copyright © 2024 Matheus Nunes Reis. All rights reserved.
 
 'GitHub: MatheusNReis
