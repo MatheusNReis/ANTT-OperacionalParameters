@@ -17,7 +17,7 @@ Sub GerarTabelasPelasPlanilhasdaPasta() 'No Editor VBA entre em “Ferramentas�
 'Copyright © 2024 Matheus Nunes Reis. All rights reserved.
 
 'GitHub: MatheusNReis
-'License: https://raw.githubusercontent.com/MatheusNReis/ANTT-OperacionalParameters/refs/heads/main/LICENSE
+'License: https://raw.githubusercontent.com/MatheusNReis/ANTT-OperacionalParameters/05782e3211f77a3b453fbcf02b3e031513031ecf/LICENSE
 'MIT License. Copyright © 2024 MatheusNReis
 
 
