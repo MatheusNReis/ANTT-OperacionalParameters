@@ -9,5 +9,5 @@ Sub ProtegeBotãoEspecífico()
     'ws.Shapes("Button 2").Locked = True
 
     ' Protege a planilha - necessário para aplicar bloqueio de botão
-    ws.Protect Password:="WRITEPASSWORDHERE", UserInterfaceOnly:=True
+    ws.Protect Password:="InserirSenha", UserInterfaceOnly:=True
 End Sub
