@@ -23,7 +23,7 @@ Sub TratarRecursos_TipoDeVeiculos()
 'Copyright © 2024 Matheus Nunes Reis. All rights reserved.
 
 'GitHub: MatheusNReis
-'License: https://raw.githubusercontent.com/MatheusNReis/ANTT-OperacionalParameters/05782e3211f77a3b453fbcf02b3e031513031ecf/LICENSE
+'License: https://raw.githubusercontent.com/MatheusNReis/ANTT-OperacionalParameters/refs/heads/main/LICENSE
 'MIT License. Copyright © 2024 MatheusNReis
 
 
@@ -290,6 +290,12 @@ Dim fso As Object
             QtdeExpurgo = QtdeExpurgo + 1
             PrimeiroAtend = 1
             
+        'Tempo > 0 e <= 3 minutos
+        'ElseIf Tempo > 0 And Tempo <= 0.00208333333333 Then
+            'TempoReduzido = TempoReduzido + 1 'TempoReduzido é a contagem de Tempos >0 e <= 3 minutos
+            'QtdeExpurgo = QtdeExpurgo + 1
+            'PrimeiroAtend = 1
+            
         'Nem guincho e nem ambulância
         ElseIf ValorRecurso <> "Ambulância C" And _
                ValorRecurso <> "Ambulância D" And _
@@ -346,25 +352,27 @@ Dim fso As Object
             '--
             
             'ECO RIOMINAS
-            If ObjWorksheet.Cells(i, "B").Value = "ECO RIOMINAS" And ObjWorksheet.Cells(i, "H").Value = "BR-465" And ValorRecurso = "Ambulância C" Then
+            If ObjWorksheet.Cells(i, "B").Value = "ECORIOMINAS" And ObjWorksheet.Cells(i, "H").Value = "BR-465" And ValorRecurso = "Ambulância C" Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "BR-465"
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECO RIOMINAS" And ObjWorksheet.Cells(i, "H").Value <> "BR-465" And ValorRecurso = "Ambulância C" Then
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECORIOMINAS" And ObjWorksheet.Cells(i, "H").Value <> "BR-465" And ValorRecurso = "Ambulância C" Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "BR-116/BR-493"
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECO RIOMINAS" And ObjWorksheet.Cells(i, "H").Value = "BR-116" And (ValorRecurso = "Ambulância D" Or ValorRecurso = "Guincho Leve") Then
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECORIOMINAS" And ObjWorksheet.Cells(i, "H").Value = "BR-116" And (ValorRecurso = "Ambulância D" Or ValorRecurso = "Guincho Leve") Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "BR-116"
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECO RIOMINAS" And ObjWorksheet.Cells(i, "H").Value <> "BR-116" And (ValorRecurso = "Ambulância D" Or ValorRecurso = "Guincho Leve") Then
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECORIOMINAS" And ObjWorksheet.Cells(i, "H").Value <> "BR-116" And (ValorRecurso = "Ambulância D" Or ValorRecurso = "Guincho Leve") Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "BR-465/BR-493"
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECO RIOMINAS" And (ValorRecurso = "Guincho Pesado") Then
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECORIOMINAS" And (ValorRecurso = "Guincho Pesado") Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "Todas"
             
             'ECOVIAS DO ARAGUAIA
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECOVIAS DO ARAGUAIA" Then
-                DestWorksheet.Cells(LinhaDestworksheet, "U").Value = ObjWorksheet.Cells(i, "H").Value 'Rodovia Atual
-                        
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "ECOVIAS DO ARAGUAIA" And ObjWorksheet.Cells(i, "H").Value = "BR-153" Then
+                DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "BR-153"
+                ElseIf ObjWorksheet.Cells(i, "B").Value = "ECOVIAS DO ARAGUAIA" And ObjWorksheet.Cells(i, "H").Value <> "BR-153" Then
+                DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "BR-080/BR-414"
+                
             'RIO SP
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "RIO SP" And ValorRecurso = "Ambulância C" Then
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "RIOSP" And ValorRecurso = "Ambulância C" Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = "Todas"
-            ElseIf ObjWorksheet.Cells(i, "B").Value = "RIO SP" And ValorRecurso <> "Ambulância C" Then
+            ElseIf ObjWorksheet.Cells(i, "B").Value = "RIOSP" And ValorRecurso <> "Ambulância C" Then
                 DestWorksheet.Cells(LinhaDestworksheet, "U").Value = ObjWorksheet.Cells(i, "H").Value 'Rodovia Atual
             
             End If
@@ -386,7 +394,8 @@ Dim fso As Object
     
     
     
-    ' Classificar pelas colunas F(Recurso), T(Ano), R(Mês) e S(Tempo)
+    
+    ' Classificar pelas colunas F(Recurso), T(Ano), R(Mês), U(Rodovia Concat) e S(Tempo)
     Dim LastRowDestWorksheet As Long
     LastRowDestWorksheet = DestWorksheet.Cells(DestWorksheet.Rows.Count, "B").End(xlUp).Row
     With DestWorksheet.Sort
@@ -394,6 +403,7 @@ Dim fso As Object
         .SortFields.Add Key:=DestWorksheet.Range("F1:F" & LastRowDestWorksheet), Order:=xlAscending
         .SortFields.Add Key:=DestWorksheet.Range("T1:T" & LastRowDestWorksheet), Order:=xlAscending
         .SortFields.Add Key:=DestWorksheet.Range("R1:R" & LastRowDestWorksheet), Order:=xlAscending
+        .SortFields.Add Key:=DestWorksheet.Range("U1:U" & LastRowDestWorksheet), Order:=xlAscending
         .SortFields.Add Key:=DestWorksheet.Range("S1:S" & LastRowDestWorksheet), Order:=xlAscending
         .SetRange DestWorksheet.Range("A1:Z" & LastRowDestWorksheet) 'Ordena a tabela da coluna A até Z
         .Header = xlYes
@@ -407,12 +417,14 @@ Dim fso As Object
     Resource = DestWorksheet.Cells(2, "F").Value
     ano = DestWorksheet.Cells(2, "T").Value
     mes = DestWorksheet.Cells(2, "R").Value
+    Rodovia_Concat = DestWorksheet.Cells(2, "U").Value
     Count = 0
     DestWorksheet.Cells(2, "V").Value = 1
     
     Dim j As Long
     For j = 2 To LastRowDestWorksheet
-        If DestWorksheet.Cells(j, "F").Value = Resource And DestWorksheet.Cells(j, "T").Value = ano And DestWorksheet.Cells(j, "R").Value = mes Then
+        If DestWorksheet.Cells(j, "F").Value = Resource And DestWorksheet.Cells(j, "T").Value = ano And DestWorksheet.Cells(j, "R").Value = mes And _
+            DestWorksheet.Cells(j, "U").Value = Rodovia_Concat Then
             'O registro ainda pertence ao mesmo grupo
             Count = Count + 1
             DestWorksheet.Cells(j, "V").Value = Count
@@ -424,6 +436,7 @@ Dim fso As Object
             Resource = DestWorksheet.Cells(j, "F").Value
             ano = DestWorksheet.Cells(j, "T").Value
             mes = DestWorksheet.Cells(j, "R").Value
+            Rodovia_Concat = DestWorksheet.Cells(j, "U").Value
         End If
     Next j
     
@@ -463,7 +476,9 @@ Dim fso As Object
     DadosExpWorksheet.Range("M2").Value = GL_Repetido
     DadosExpWorksheet.Range("N1").Value = "GP rep."
     DadosExpWorksheet.Range("N2").Value = GP_Repetido
-    
+    'DadosExpWorksheet.Range("O1").Value = "Tempo Reduzido"
+    'DadosExpWorksheet.Range("O2").Value = TempoReduzido
+
 
     'Coloca na planilha "1.Instruções" o nome da concessionária atual tratada
     ThisWorkbook.Sheets("1.Instruções").Cells(3, "F").Value = NomeDaNovaPlanilha
