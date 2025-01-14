@@ -17,7 +17,7 @@ Sub ModifyHistogramCharts()
     'Copyright © 2024 Matheus Nunes Reis. All rights reserved.
     
     'GitHub: MatheusNReis
-    'License:
+    'License: https://raw.githubusercontent.com/MatheusNReis/ANTT-OperacionalParameters/0dcb621627ddc7a2326e3a3aff99b1646a8b2cb0/LICENSE
     'MIT License. Copyright © 2024 MatheusNReis
     
 
